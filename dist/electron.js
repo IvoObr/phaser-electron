@@ -1,22 +1,22 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, screen } = require('electron');
 
 function createWindow() {
     // Create the browser window.
-    const win = new BrowserWindow({
-        width: 1800,
-        height: 600,
+    const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+    const window = new BrowserWindow({
+        width, height,
         webPreferences: {
             nodeIntegration: true
         }
     });
-    
-    console.log('-------------',win);
+
+    window.setFullScreen(true);
     
     // and load the index.html of the app.
-    win.loadFile('dist/index.html');
+    window.loadFile('dist/index.html');
     
     // Open the DevTools.
-    win.webContents.openDevTools();
+    window.webContents.openDevTools();
 }
 
 // This method will be called when Electron has finished

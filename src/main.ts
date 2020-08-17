@@ -1,14 +1,21 @@
 import Phaser from 'phaser';
-import Demo from './phaser';
+import Game2 from './Game2';
+import { Screen } from './consts';
+ 
+console.log(global.screen);
 
 const gameConfig = {
     type: Phaser.AUTO,
     backgroundColor: '#125555',
-    width: 1800,
-    height: 600,
-    scene: Demo
+    width: Screen.width,
+    height: Screen.height,
+    scene: {
+        preload: Game2.preload,
+        create: Game2.create,
+        update: Game2.update
+    }
 };
 
-const game = new Phaser.Game(gameConfig);
+new Phaser.Game(gameConfig);
 
 /* =========================================================*/
