@@ -6,9 +6,11 @@ class Game2 extends Phaser.Scene { // implements IGame {
     platforms: Phaser.Physics.Arcade.StaticGroup;
     player: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
     cursors: Phaser.Types.Input.Keyboard.CursorKeys;
-    stars: Phaser.Physics.Arcade.Group;
+    static bombs: Phaser.Physics.Arcade.Group;
+    static stars: Phaser.Physics.Arcade.Group;
     static scoreText: Phaser.GameObjects.Text;
     static score: number = 0;
+    static gameOver: boolean = false;
     
     constructor() {
         super('HeroGame');
@@ -18,6 +20,7 @@ class Game2 extends Phaser.Scene { // implements IGame {
         this.load.image('sky', 'assets/sky.jpg');        
         this.load.image('star', 'assets/star.png');
         this.load.image('ground', 'assets/platform.png');
+        this.load.image('bomb', 'assets/bomb.png');
         this.load.spritesheet('dude', 'assets/dude.png',
             { frameWidth: 32, frameHeight: 48 });
      
@@ -71,24 +74,33 @@ class Game2 extends Phaser.Scene { // implements IGame {
         });
         
         this.cursors = this.input.keyboard.createCursorKeys();
+
+        Game2.bombs = this.physics.add.group();
         
-        this.stars = this.physics.add.group({
+        Game2.stars = this.physics.add.group({
             key: 'star',
             repeat: 11,
             setXY: { x: 12, y: 0, stepX: 70 }
         });
         
-        this.stars.children.iterate((child: any) => {
+        Game2.stars.children.iterate((child: any) => {
             child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
         });
 
         this.physics.add.collider(this.player, this.platforms);
-        this.physics.add.collider(this.stars, this.platforms);
+        this.physics.add.collider(Game2.stars, this.platforms);
+        this.physics.add.collider(Game2.bombs, this.platforms);
+        this.physics.add.collider(this.player, Game2.bombs, hitBomb, null, this);
 
-        this.physics.add.overlap(this.player, this.stars, collectStar, null, this);
+        this.physics.add.overlap(this.player, Game2.stars, collectStar, null, this);
     }
         
     update() {
+
+        if (Game2.gameOver) {
+            return;
+        }
+        
         if (this.cursors.left.isDown) {
             this.player.setVelocityX(-160);
             this.player.anims.play('left', true);
@@ -116,4 +128,26 @@ function collectStar(player: any, star: any) {
 
     Game2.score += 10;
     Game2.scoreText.setText('Score: ' + Game2.score);
+
+    if (Game2.stars.countActive(true) === 0) {
+        Game2.stars.children.iterate(function(child: any) {
+            child.enableBody(true, child.x, 0, true, true);
+        });
+
+        const x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+
+        const bomb = Game2.bombs.create(x, 16, 'bomb');
+        bomb.setBounce(1);
+        bomb.setCollideWorldBounds(true);
+        bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+    }
+}
+
+function hitBomb(player: any, bomb: any) {
+    this.physics.pause();
+
+    player.setTint(0xff0000);
+    player.anims.play('turn');
+
+    Game2.gameOver = true;
 }
