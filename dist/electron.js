@@ -1,4 +1,10 @@
 const { app, BrowserWindow, screen } = require('electron');
+// const readline = require('readline');
+// const { Readable } = require('stream');
+//
+// const inStream = new Readable({
+//     read() { console.log('in reading'); }
+// });
 
 function createWindow() {
     // Create the browser window.
@@ -17,6 +23,16 @@ function createWindow() {
     
     // Open the DevTools.
     window.webContents.openDevTools();
+    //
+    //
+    // let i = 0
+    // setInterval(() => { inStream.push(`${i++}`) }, 1000)
+    // readline.emitKeypressEvents(inStream);
+    //
+    // inStream.on('keypress', (...ar) => {
+    //     console.log(ar)
+    // });
+
 }
 
 // This method will be called when Electron has finished

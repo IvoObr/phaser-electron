@@ -6,9 +6,12 @@ class Game2 extends Phaser.Scene { // implements IGame {
     platforms: Phaser.Physics.Arcade.StaticGroup;
     player: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
     cursors: Phaser.Types.Input.Keyboard.CursorKeys;
+    stars: Phaser.Physics.Arcade.Group;
+    static scoreText: Phaser.GameObjects.Text;
+    static score: number = 0;
     
     constructor() {
-        super('demo');
+        super('HeroGame');
     }
 
     preload() {
@@ -24,6 +27,7 @@ class Game2 extends Phaser.Scene { // implements IGame {
 
     create() {
         this.add.image(Screen.width / 2 , Screen.height / 2, 'sky');
+        Game2.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
 
         this.platforms = this.physics.add.staticGroup();
         this.platforms.create(400, 568, 'ground').setScale(2).refreshBody();
@@ -68,16 +72,31 @@ class Game2 extends Phaser.Scene { // implements IGame {
         
         this.cursors = this.input.keyboard.createCursorKeys();
         
-        this.physics.add.collider(this.player, this.platforms);
-    }
+        this.stars = this.physics.add.group({
+            key: 'star',
+            repeat: 11,
+            setXY: { x: 12, y: 0, stepX: 70 }
+        });
+        
+        this.stars.children.iterate((child: any) => {
+            child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+        });
 
+        this.physics.add.collider(this.player, this.platforms);
+        this.physics.add.collider(this.stars, this.platforms);
+
+        this.physics.add.overlap(this.player, this.stars, collectStar, null, this);
+    }
+        
     update() {
         if (this.cursors.left.isDown) {
             this.player.setVelocityX(-160);
             this.player.anims.play('left', true);
+            
         } else if (this.cursors.right.isDown) {
             this.player.setVelocityX(160);
             this.player.anims.play('right', true);
+            
         } else {
             this.player.setVelocityX(0);
             this.player.anims.play('turn');
@@ -91,3 +110,10 @@ class Game2 extends Phaser.Scene { // implements IGame {
 }
 
 export default new Game2();
+
+function collectStar(player: any, star: any) {
+    star.disableBody(true, true);
+
+    Game2.score += 10;
+    Game2.scoreText.setText('Score: ' + Game2.score);
+}
