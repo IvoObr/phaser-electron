@@ -4,7 +4,7 @@ import Player from './characters/Player';
 import { IArcadeStaticGroup, IArcadeGroup,
     ICursors, IText } from './interfaces';
 
-export default class GameScene extends Phaser.Scene { // implements IGame {
+export default class GameScene extends Phaser.Scene {
     public platforms: IArcadeStaticGroup;
     public player: Player;
     public cursors: ICursors;
@@ -65,8 +65,8 @@ export default class GameScene extends Phaser.Scene { // implements IGame {
             child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
         });
 
-        this.player.setCollision(this.platforms, GameScene.bombs, hitBomb);
-        this.player.setOverlap(GameScene.stars, collectStar);
+        this.player.setCollision(this.platforms, GameScene.bombs);
+        this.player.setOverlap(GameScene.stars);
         
         this.physics.add.collider(GameScene.stars, this.platforms);
         this.physics.add.collider(GameScene.bombs, this.platforms);
@@ -80,33 +80,4 @@ export default class GameScene extends Phaser.Scene { // implements IGame {
 
         this.player.setKeyInput(this.cursors);
     }
-}
-
-function collectStar(player: any, star: any) {
-    star.disableBody(true, true);
-
-    GameScene.score += 10;
-    GameScene.scoreText.setText('Score: ' + GameScene.score);
-
-    if (GameScene.stars.countActive(true) === 0) {
-        GameScene.stars.children.iterate(function(child: any) {
-            child.enableBody(true, child.x, 0, true, true);
-        });
-
-        const x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
-
-        const bomb = GameScene.bombs.create(x, 16, 'bomb');
-        bomb.setBounce(1);
-        bomb.setCollideWorldBounds(true);
-        bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
-    }
-}
-
-function hitBomb(player: any, bomb: any) {
-    this.physics.pause();
-
-    player.setTint(0xff0000);
-    player.anims.play('turn');
-
-    GameScene.gameOver = true;
 }

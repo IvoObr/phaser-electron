@@ -3,16 +3,16 @@ import { IPlayer, IAnims, IPhysics, ICursors,
 
 export default abstract class Character {
     public abstract player: IPlayer;
+    
     public abstract physics: IPhysics;
+    
     public abstract anims: IAnims;
+    
+    public abstract setCollision(platforms: IArcadeStaticGroup, bombs: IArcadeGroup) : void;
+    
+    public abstract setOverlap(stars: IArcadeGroup): void;
+    
+    public abstract setKeyInput(cursors: ICursors): void;
+
     public abstract setSprite(): void;
-    public abstract setCollision(
-        platforms: IArcadeStaticGroup,
-        bombs: IArcadeGroup,
-        callback: ArcadePhysicsCallback): void;
-    public abstract setOverlap(
-        stars: IArcadeGroup,
-        collectStar: ArcadePhysicsCallback): void;
-    public abstract setKeyInput(
-        cursors: ICursors): void;
 }

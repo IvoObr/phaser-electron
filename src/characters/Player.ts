@@ -1,19 +1,23 @@
-import { IPlayer, IAnims, IPhysics,
-    IArcadeGroup, IArcadeStaticGroup, ICursors } from '../interfaces';
 import Character from './Character';
+import GameScene from '../GameScene';
+import Phaser from 'phaser';
+import { IPlayer, IAnims, IPhysics, ICursors,
+    IArcadeGroup, IArcadeStaticGroup } from '../interfaces';
 
 export default class Player extends Character {
     public player: IPlayer;
     public physics: IPhysics;
     public anims: IAnims;
+    private callbacks: PlayerPhysicsCallbacks;
 
     constructor(physics: IPhysics, anims: IAnims) {
         super();
         this.physics = physics;
         this.anims = anims;
+        this.callbacks = new PlayerPhysicsCallbacks(physics);
     }
 
-    public setSprite() {
+    public setSprite(): void {
         this.player = this.physics.add.sprite(100, 450 , 'dude');
         this.player.setBounce(0.2);
         this.player.setCollideWorldBounds(true);
@@ -39,16 +43,16 @@ export default class Player extends Character {
         });
     }
 
-    public setCollision(platforms: IArcadeStaticGroup, bombs: IArcadeGroup, hitBomb: ArcadePhysicsCallback) {
+    public setCollision(platforms: IArcadeStaticGroup, bombs: IArcadeGroup): void {
         this.physics.add.collider(this.player, platforms);
-        this.physics.add.collider(this.player, bombs, hitBomb, null, this);
+        this.physics.add.collider(this.player, bombs, this.callbacks.hitBomb, null, this);
     }
 
-    public setOverlap(stars: IArcadeGroup, collectStar: ArcadePhysicsCallback) {
-        this.physics.add.overlap(this.player, stars, collectStar, null, this);
+    public setOverlap(stars: IArcadeGroup): void {
+        this.physics.add.overlap(this.player, stars, this.callbacks.collectStar, null, this);
     }
 
-    public setKeyInput(cursors: ICursors) {
+    public setKeyInput(cursors: ICursors): void {
 
         if (cursors.left.isDown) {
             this.player.setVelocityX(-160);
@@ -67,4 +71,42 @@ export default class Player extends Character {
             this.player.setVelocityY(-330);
         }
     }
+}
+
+class PlayerPhysicsCallbacks {
+    public physics: IPhysics;
+    
+    constructor(physics: IPhysics) {
+        this.physics = physics;
+    }
+    
+    collectStar(player: IPlayer, star: any): void {
+        star.disableBody(true, true);
+
+        GameScene.score += 10;
+        GameScene.scoreText.setText('Score: ' + GameScene.score);
+
+        if (GameScene.stars.countActive(true) === 0) {
+            GameScene.stars.children.iterate(function(child: any) {
+                child.enableBody(true, child.x, 0, true, true);
+            });
+
+            const x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+
+            const bomb = GameScene.bombs.create(x, 16, 'bomb');
+            bomb.setBounce(1);
+            bomb.setCollideWorldBounds(true);
+            bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+        }
+    }
+
+    hitBomb(player: IPlayer, bomb: any): void {
+        this.physics.pause();
+
+        player.setTint(0xff0000);
+        player.anims.play('turn');
+
+        GameScene.gameOver = true;
+    }
+    
 }
