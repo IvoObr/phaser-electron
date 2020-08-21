@@ -5,7 +5,6 @@ import { IArcadeStaticGroup, IArcadeGroup,
     ICursors, IText } from './interfaces';
 
 export default class GameScene extends Phaser.Scene {
-    public platforms: IArcadeStaticGroup;
     public player: Player;
     public cursors: ICursors;
     static bombs: IArcadeGroup;
@@ -13,6 +12,7 @@ export default class GameScene extends Phaser.Scene {
     static scoreText: IText;
     static score: number = 0;
     static gameOver: boolean = false;
+    static gameOverText: IText;
     
     constructor() {
         super('HeroGame');
@@ -31,13 +31,13 @@ export default class GameScene extends Phaser.Scene {
         this.add.image(Screen.width / 2 , Screen.height / 2, 'sky');
         GameScene.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
 
-        this.platforms = this.physics.add.staticGroup();
-        this.platforms.create(400, 568, 'ground').setScale(2).refreshBody();
-        this.platforms.create(600, 400, 'ground');
-        this.platforms.create(50, 250, 'ground');
-        this.platforms.create(750, 220, 'ground');
+        const platforms: IArcadeStaticGroup = this.physics.add.staticGroup();
+        platforms.create(400, 568, 'ground').setScale(2).refreshBody();
+        platforms.create(600, 400, 'ground');
+        platforms.create(50, 250, 'ground');
+        platforms.create(750, 220, 'ground');
 
-        this.player = new Player(this.physics, this.anims);
+        this.player = new Player(this);
         this.player.setSprite();
         
         const star = this.add.image(400, 70, 'star');
@@ -65,11 +65,11 @@ export default class GameScene extends Phaser.Scene {
             child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
         });
 
-        this.player.setCollision(this.platforms, GameScene.bombs);
+        this.player.setCollision(platforms, GameScene.bombs);
         this.player.setOverlap(GameScene.stars);
         
-        this.physics.add.collider(GameScene.stars, this.platforms);
-        this.physics.add.collider(GameScene.bombs, this.platforms);
+        this.physics.add.collider(GameScene.stars, platforms);
+        this.physics.add.collider(GameScene.bombs, platforms);
         
     }
         

@@ -1,55 +1,54 @@
 import Character from './Character';
 import GameScene from '../GameScene';
 import Phaser from 'phaser';
-import { IPlayer, IAnims, IPhysics, ICursors,
+import { Screen } from '../consts';
+import { IPlayer, ICursors,
     IArcadeGroup, IArcadeStaticGroup } from '../interfaces';
 
 export default class Player extends Character {
     public player: IPlayer;
-    public physics: IPhysics;
-    public anims: IAnims;
+    public scene: Phaser.Scene
     private callbacks: PlayerPhysicsCallbacks;
 
-    constructor(physics: IPhysics, anims: IAnims) {
+    constructor(Scene: Phaser.Scene) {
         super();
-        this.physics = physics;
-        this.anims = anims;
-        this.callbacks = new PlayerPhysicsCallbacks(physics);
+        this.scene = Scene;
+        this.callbacks = new PlayerPhysicsCallbacks(Scene);
     }
 
     public setSprite(): void {
-        this.player = this.physics.add.sprite(100, 450 , 'dude');
+        this.player = this.scene.physics.add.sprite(100, 450 , 'dude');
         this.player.setBounce(0.2);
         this.player.setCollideWorldBounds(true);
 
-        this.anims.create({
+        this.scene.anims.create({
             key: 'left',
-            frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
+            frames: this.scene.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
             frameRate: 10,
             repeat: -1
         });
 
-        this.anims.create({
+        this.scene.anims.create({
             key: 'turn',
             frames: [{ key: 'dude', frame: 4 }],
             frameRate: 20
         });
 
-        this.anims.create({
+        this.scene.anims.create({
             key: 'right',
-            frames: this.anims.generateFrameNumbers('dude', { start: 5, end: 8 }),
+            frames: this.scene.anims.generateFrameNumbers('dude', { start: 5, end: 8 }),
             frameRate: 10,
             repeat: -1
         });
     }
 
     public setCollision(platforms: IArcadeStaticGroup, bombs: IArcadeGroup): void {
-        this.physics.add.collider(this.player, platforms);
-        this.physics.add.collider(this.player, bombs, this.callbacks.hitBomb, null, this);
+        this.scene.physics.add.collider(this.player, platforms);
+        this.scene.physics.add.collider(this.player, bombs, this.callbacks.hitBomb, null, this);
     }
 
     public setOverlap(stars: IArcadeGroup): void {
-        this.physics.add.overlap(this.player, stars, this.callbacks.collectStar, null, this);
+        this.scene.physics.add.overlap(this.player, stars, this.callbacks.collectStar, null, this);
     }
 
     public setKeyInput(cursors: ICursors): void {
@@ -74,13 +73,13 @@ export default class Player extends Character {
 }
 
 class PlayerPhysicsCallbacks {
-    public physics: IPhysics;
-    
-    constructor(physics: IPhysics) {
-        this.physics = physics;
+    public scene: Phaser.Scene
+
+    constructor(Scene: Phaser.Scene) {
+        this.scene = Scene;
     }
-    
-    collectStar(player: IPlayer, star: any): void {
+
+    public collectStar(player: IPlayer, star: any): void {
         star.disableBody(true, true);
 
         GameScene.score += 10;
@@ -91,20 +90,29 @@ class PlayerPhysicsCallbacks {
                 child.enableBody(true, child.x, 0, true, true);
             });
 
-            const x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+            const x = (player.x < 400)
+                ? Phaser.Math.Between(400, 800)
+                : Phaser.Math.Between(0, 400);
 
             const bomb = GameScene.bombs.create(x, 16, 'bomb');
+            
             bomb.setBounce(1);
             bomb.setCollideWorldBounds(true);
             bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
         }
     }
 
-    hitBomb(player: IPlayer, bomb: any): void {
-        this.physics.pause();
+    public hitBomb(player: IPlayer, bomb: any): void {
+        this.scene.physics.pause();
 
         player.setTint(0xff0000);
         player.anims.play('turn');
+
+        GameScene.gameOverText = this.scene.add.text(
+            Screen.height / 2,
+            Screen.width / 2,
+            'GAME OVER',
+            { fontSize: '38px', fill: '#000' });
 
         GameScene.gameOver = true;
     }
