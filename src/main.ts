@@ -1,8 +1,8 @@
 import Phaser from 'phaser';
-import Game2 from './Game2';
+import GameScene from './GameScene';
 import { Screen } from './consts';
- 
-console.log(global.screen);
+
+const game = new GameScene();
 
 const gameConfig = {
     type: Phaser.AUTO,
@@ -17,9 +17,9 @@ const gameConfig = {
         }
     },
     scene: {
-        preload: Game2.preload,
-        create: Game2.create,
-        update: Game2.update
+        preload: game.preload,
+        create: game.create,
+        update: game.update
     }
 };
 
