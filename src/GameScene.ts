@@ -16,7 +16,7 @@ export default class GameScene extends Phaser.Scene {
     
     constructor() {
         super('HeroGame');
-    }
+    } 
 
     preload() {
         this.load.image('sky', 'assets/sky.jpg');        

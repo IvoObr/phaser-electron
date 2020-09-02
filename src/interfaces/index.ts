@@ -1,8 +1,8 @@
-import { IPlayer, IAnims, IPhysics, IArcadeStaticGroup,
-    IArcadeGroup, ICursors, IText, IAddFactory } from './IPhaserGame';
+import { IPlayer, IArcadeStaticGroup,
+    IArcadeGroup, ICursors, IText} from './IPhaserGame';
 
 export {
-    IPlayer, IAnims, IPhysics,
+    IPlayer, 
     IArcadeStaticGroup, IText,
-    IArcadeGroup, ICursors, IAddFactory
+    IArcadeGroup, ICursors,
 }

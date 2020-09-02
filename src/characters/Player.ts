@@ -7,13 +7,11 @@ import { IPlayer, ICursors,
 
 export default class Player extends Character {
     public player: IPlayer;
-    public scene: Phaser.Scene
     private callbacks: PlayerPhysicsCallbacks;
 
-    constructor(Scene: Phaser.Scene) {
+    constructor(public scene: Phaser.Scene) {
         super();
-        this.scene = Scene;
-        this.callbacks = new PlayerPhysicsCallbacks(Scene);
+        this.callbacks = new PlayerPhysicsCallbacks(this.scene);
     }
 
     public setSprite(): void {
@@ -73,11 +71,8 @@ export default class Player extends Character {
 }
 
 class PlayerPhysicsCallbacks {
-    public scene: Phaser.Scene
-
-    constructor(Scene: Phaser.Scene) {
-        this.scene = Scene;
-    }
+    
+    constructor(private scene: Phaser.Scene) {}
 
     public collectStar(player: IPlayer, star: any): void {
         star.disableBody(true, true);

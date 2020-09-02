@@ -7,8 +7,8 @@ const game = new GameScene();
 const gameConfig = {
     type: Phaser.AUTO,
     backgroundColor: '#3e729d',
-    width: Screen.width,
-    height: Screen.height,
+    width: 800, //, Screen.width,
+    height: 600,//, Screen.height,
     physics: {
         default: 'arcade',
         arcade: {
