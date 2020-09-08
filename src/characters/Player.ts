@@ -2,6 +2,7 @@ import Character from './Character';
 import GameScene from '../GameScene';
 import Phaser from 'phaser';
 import { Screen } from '../consts';
+import Bomb from '../obj/Bomb';
 import { IPlayer, ICursors,
     IArcadeGroup, IArcadeStaticGroup } from '../interfaces';
 

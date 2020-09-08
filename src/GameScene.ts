@@ -1,15 +1,14 @@
 import Phaser from 'phaser';
 import { Screen } from './consts';
 import Player from './characters/Player';
-import Group from './obj/Group';
+import Bomb from './obj/Bomb';
 import { IArcadeStaticGroup, IArcadeGroup,
     ICursors, IText } from './interfaces';
-import Bomb from './obj/Bomb';
 
 export default class GameScene extends Phaser.Scene {
     public player: Player;
     public cursors: ICursors;
-    static bombs: IArcadeGroup;
+    static bombs: Bomb;
     static stars: IArcadeGroup;
     static scoreText: IText;
     static score: number = 0;

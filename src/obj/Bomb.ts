@@ -1,11 +1,13 @@
-import ArcedeGroup from './Group';
-import IGroup from '../interfaces/IGroup';
+import Group from './Group';
+import { IGroup } from '../interfaces';
 
-export default class Bomb extends ArcedeGroup {
+export default class Bomb extends Group {
     
-  //  private scene: Phaser.Scene;
+    constructor(protected scene: Phaser.Scene) {
+        super(scene);
+    } 
     
-    public addGroup(arg: IGroup): void {
+    public addGroup(arg: IGroup | {}): void {
         this.scene.physics.add.group(arg);
     }
 }
