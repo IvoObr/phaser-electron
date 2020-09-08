@@ -1,8 +1,10 @@
 import Phaser from 'phaser';
 import { Screen } from './consts';
 import Player from './characters/Player';
+import Group from './obj/Group';
 import { IArcadeStaticGroup, IArcadeGroup,
     ICursors, IText } from './interfaces';
+import Bomb from './obj/Bomb';
 
 export default class GameScene extends Phaser.Scene {
     public player: Player;
@@ -53,7 +55,9 @@ export default class GameScene extends Phaser.Scene {
         
         this.cursors = this.input.keyboard.createCursorKeys();
 
-        GameScene.bombs = this.physics.add.group();
+        GameScene.bombs = new Bomb(this);
+        GameScene.bombs.addGroup({});
+      //  GameScene.bombs = this.physics.add.group();
         
         GameScene.stars = this.physics.add.group({
             key: 'star',
