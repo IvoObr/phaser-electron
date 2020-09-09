@@ -1,4 +1,4 @@
-module.exports = {
+ {
     "env": {
         "browser": true,
         "commonjs": true,
@@ -86,7 +86,7 @@ module.exports = {
                 "max": 1, "maxEOF": 1, "maxBOF": 1
             }
         ],
-        
+
         "no-constant-condition": "warn",
         "no-unused-vars": 0,
         // "max-params": [
@@ -132,4 +132,4 @@ module.exports = {
         "no-extra-boolean-cast": "off",
         "no-extra-semi": "warn"
     }
-};
+}
