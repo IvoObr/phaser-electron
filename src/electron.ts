@@ -1,10 +1,13 @@
 const { app, BrowserWindow, screen } = require('electron');
+import { ASCII_TEXT } from './consts';
 // const readline = require('readline');
 // const { Readable } = require('stream');
 //
 // const inStream = new Readable({
 //     read() { console.log('in reading'); }
 // });
+
+console.log(ASCII_TEXT);
 
 function createWindow() {
     // Create the browser window.
@@ -17,7 +20,7 @@ function createWindow() {
     });
 
     window.setFullScreen(true);
-    
+
     // and load the index.html of the app.
     window.loadFile('dist/index.html');
     

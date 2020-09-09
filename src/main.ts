@@ -1,6 +1,8 @@
 import Phaser from 'phaser';
 import GameScene from './GameScene';
-import { Screen } from './consts';
+import { ASCII_TEXT, Screen } from './consts';
+
+console.log(ASCII_TEXT);
 
 const game = new GameScene();
 
