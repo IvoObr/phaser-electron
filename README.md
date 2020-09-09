@@ -2,5 +2,5 @@
 
 ## Setup: 
 - npm install
-- npm build
+- npm run build
 - npm run play
