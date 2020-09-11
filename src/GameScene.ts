@@ -3,16 +3,20 @@ import { Screen } from './consts';
 import Player from './characters/Player';
 import { IArcadeStaticGroup, IArcadeGroup,
     ICursors, IText } from './interfaces';
+import { Bomb, Star } from './objects';
 
 export default class GameScene extends Phaser.Scene {
     public player: Player;
     public cursors: ICursors;
+    
+    static scoreText: IText;
+    static gameOverText: IText;
+
     static bombs: IArcadeGroup;
     static stars: IArcadeGroup;
-    static scoreText: IText;
+ 
     static score: number = 0;
     static gameOver: boolean = false;
-    static gameOverText: IText;
     
     constructor() {
         super('HeroGame');
@@ -53,9 +57,9 @@ export default class GameScene extends Phaser.Scene {
         
         this.cursors = this.input.keyboard.createCursorKeys();
 
-        GameScene.bombs = this.physics.add.group();
+        GameScene.bombs = new Bomb(this).getInstance();
         
-        GameScene.stars = this.physics.add.group({
+        GameScene.stars = new Star(this).getInstance({
             key: 'star',
             repeat: 11,
             setXY: { x: 12, y: 0, stepX: 70 }
