@@ -1,12 +1,18 @@
 import Phaser from 'phaser';
 import GameScene from './GameScene';
 import { ASCII_TEXT, Screen } from './consts';
+import { IGameConfig } from './interfaces';
+import { Electron } from './electron';
+import { app, BrowserWindow, screen } from 'electron';
 
 console.log(ASCII_TEXT);
 
+const electron = new Electron(app, BrowserWindow, screen, ASCII_TEXT);
+electron.init();
+
 const game = new GameScene();
 
-const gameConfig = {
+const gameConfig: IGameConfig = {
     type: Phaser.AUTO,
     backgroundColor: '#3e729d',
     width: 800, //, Screen.width,
@@ -26,5 +32,3 @@ const gameConfig = {
 };
 
 new Phaser.Game(gameConfig);
-
-/* =========================================================*/
