@@ -1,29 +1,34 @@
+
+const self: any = this;
+
 export class Electron {
     
-    constructor(private app: any, private BrowserWindow: any, private screen: any, ASCII_TEXT: string) {
-        console.log(ASCII_TEXT); 
-    }
+    constructor(
+        private app: any,
+        private screen: any,
+        private BrowserWindow: any,
+        private ASCII_TEXT: string
+    ) { }
 
     private createWindow() {
-        // Create the browser window.
+
         const { width, height } = this.screen.getPrimaryDisplay().workAreaSize;
         const window = new this.BrowserWindow({
             width, height,
-            webPreferences: {
-                nodeIntegration: true
-            }
+            webPreferences:
+                { nodeIntegration: true }
         });
 
         window.setFullScreen(true);
-
-        // and load the index.html of the app.
         window.loadFile('dist/index.html');
-
-        // Open the DevTools.
         window.webContents.openDevTools();
     }
     
     init() {
+        console.log(this.ASCII_TEXT);
+        
+        self.app = this.app;
+
         // This method will be called when Electron has finished
         // initialization and is ready to create browser windows.
         // Some APIs can only be used after this event occurs.
@@ -47,6 +52,5 @@ export class Electron {
         });
         // In this file you can include the rest of your app's specific main process
         // code. You can also put them in separate files and require them here.
-
     }
 }
