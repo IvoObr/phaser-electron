@@ -1,16 +1,15 @@
-
-const self: any = this;
+import { IApp, IScreen, IBrowserWindow } from './interfaces';
+import { ASCII_TEXT } from './consts';
 
 export class Electron {
     
     constructor(
-        private app: any,
-        private screen: any,
-        private BrowserWindow: any,
-        private ASCII_TEXT: string
+        private app: IApp,
+        private screen: IScreen,
+        private BrowserWindow: IBrowserWindow
     ) { }
 
-    private createWindow() {
+    public createWindow(): void {
 
         const { width, height } = this.screen.getPrimaryDisplay().workAreaSize;
         const window = new this.BrowserWindow({
@@ -24,10 +23,8 @@ export class Electron {
         window.webContents.openDevTools();
     }
     
-    init() {
-        console.log(this.ASCII_TEXT);
-        
-        self.app = this.app;
+    public init(): void {
+        console.log(ASCII_TEXT);
 
         // This method will be called when Electron has finished
         // initialization and is ready to create browser windows.

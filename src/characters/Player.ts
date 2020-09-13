@@ -1,7 +1,7 @@
 import Character from './Character';
-import GameScene from '../GameScene';
+import { GameScene } from '../GameScene';
 import Phaser from 'phaser';
-import { Screen } from '../consts';
+import { ScreenSize } from '../consts';
 import { IPlayer, ICursors,
     IArcadeGroup, IArcadeStaticGroup } from '../interfaces';
 
@@ -104,8 +104,8 @@ class PlayerPhysicsCallbacks {
         player.anims.play('turn');
 
         GameScene.gameOverText = this.scene.add.text(
-            Screen.height / 2,
-            Screen.width / 2,
+            ScreenSize.height / 2,
+            ScreenSize.width / 2,
             'GAME OVER',
             { fontSize: '38px', fill: '#000' });
 
