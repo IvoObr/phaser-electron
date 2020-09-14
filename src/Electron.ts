@@ -1,8 +1,8 @@
-import { IApp, IScreen, IBrowserWindow } from './lib/interfaces';
+import { IBrowserWindow } from './lib/interfaces';
 import { app, BrowserWindow, screen } from 'electron';
 import { ASCII_TEXT } from './lib/consts';
 
-export default class Electron {
+class Electron {
     
     public createWindow(): void {
 

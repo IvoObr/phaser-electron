@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
     entry: {
-        phaser: './src/main.ts',
+        phaser: './src/Game.ts',
         // electron: './src/Electron.ts'
     },
     output: {

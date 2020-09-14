@@ -1,9 +1,9 @@
 import Phaser from 'phaser';
-import { ScreenSize } from './lib/consts';
-import { Player } from './characters';
+import { ScreenSize } from '../lib/consts';
+import { Player } from '../characters';
 import { IArcadeStaticGroup, IArcadeGroup,
-    ICursors, IText } from './lib/interfaces';
-import { Bomb, Star } from './objects';
+    ICursors, IText } from '../lib/interfaces';
+import { Bomb, Star } from '../objects';
 
 export default class GameScene extends Phaser.Scene {
     public player: Player;

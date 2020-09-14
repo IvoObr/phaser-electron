@@ -1,5 +1,5 @@
 import Character from './Character';
-import GameScene from '../GameScene';
+import GameScene from '../scenes/GameScene';
 import Phaser from 'phaser';
 import { ScreenSize } from '../lib/consts';
 import { IPlayer, ICursors, IArcadeGroup,
