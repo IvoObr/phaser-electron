@@ -1,20 +1,26 @@
 import Phaser from 'phaser';
+import { x, y } from '../lib/types';
 
-class Bullet extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene, x, y) {
-        super(scene, x, y, 'bullet');
+class Arrow extends Phaser.Physics.Arcade.Sprite {
+    constructor(scene: any, x: x, y: y) {
+        super(scene, x, y, 'arrow');
     }
 
-    fire(x, y) {
+    fire(x: x, y: y, player: any) {
         this.body.reset(x, y);
 
+        console.log('X: ',x);
+        console.log('Y: ', y);
+        console.log(player);
+        
+        
         this.setActive(true);
         this.setVisible(true);
 
-        this.setVelocityY(-300);
+        this.setVelocityX(-800);
     }
 
-    preUpdate(time, delta) {
+    preUpdate(time: number, delta: number) {
         super.preUpdate(time, delta);
 
         if (this.y <= -32) {
@@ -24,73 +30,24 @@ class Bullet extends Phaser.Physics.Arcade.Sprite {
     }
 }
 
-class Bullets extends Phaser.Physics.Arcade.Group {
-    constructor(scene) {
+export default class Arrows extends Phaser.Physics.Arcade.Group {
+    constructor(scene: any) {
         super(scene.physics.world, scene);
 
         this.createMultiple({
-            frameQuantity: 5,
-            key: 'bullet',
+            frameQuantity: 40, // number of arrows left
+            key: 'arrow',
             active: false,
             visible: false,
-            classType: Bullet
+            classType: Arrow
         });
     }
 
-    fireBullet(x, y) {
-        const bullet = this.getFirstDead(false);
+    fireArrow(x: x, y: y, player: any) {
+        const arrow = this.getFirstDead(false);
 
-        if (bullet) {
-            bullet.fire(x, y);
+        if (arrow) {
+            arrow.fire(x, y, player);
         }
     }
 }
-
-class Example extends Phaser.Scene {
-    constructor() {
-        super();
-
-        this.bullets;
-        this.ship;
-    }
-
-    preload() {
-        this.load.image('bullet', 'assets/sprites/bullets/bullet7.png');
-        this.load.image('ship', 'assets/sprites/bsquadron1.png');
-    }
-
-    create() {
-        this.bullets = new Bullets(this);
-
-        this.ship = this.add.image(400, 500, 'ship');
-
-        this.input.on('pointermove', (pointer) => {
-
-            this.ship.x = pointer.x;
-
-        });
-
-        this.input.on('pointerdown', (pointer) => {
-
-            this.bullets.fireBullet(this.ship.x, this.ship.y);
-
-        });
-    }
-}
-
-const config = {
-    type: Phaser.AUTO,
-    width: 800,
-    height: 600,
-    parent: 'phaser-example',
-    physics: {
-        default: 'arcade',
-        arcade: {
-            debug: false,
-            gravity: { y: 0 }
-        }
-    },
-    scene: Example
-};
-
-const game = new Phaser.Game(config);

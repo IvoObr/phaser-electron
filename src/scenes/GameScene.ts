@@ -4,10 +4,12 @@ import { Player } from '../characters';
 import { IArcadeStaticGroup, IArcadeGroup,
     ICursors, IText } from '../lib/interfaces';
 import { Bomb, Star } from '../objects';
+import Arrows from '../weapons/Arrow';
 
 export default class GameScene extends Phaser.Scene {
     public player: Player;
     public cursors: ICursors;
+    public arrows: any;
     
     static scoreText: IText;
     static gameOverText: IText;
@@ -29,6 +31,8 @@ export default class GameScene extends Phaser.Scene {
         this.load.image('bomb', 'assets/bomb.png');
         this.load.spritesheet('dude', 'assets/dude.png',
             { frameWidth: 32, frameHeight: 48 });
+        this.load.image('arrow', 'assets/star2.png');
+
     }
 
     create(): void {
@@ -73,7 +77,13 @@ export default class GameScene extends Phaser.Scene {
         this.player.setOverlap(GameScene.stars);
         
         this.physics.add.collider(GameScene.stars, platforms);
-        this.physics.add.collider(GameScene.bombs, platforms);       
+        this.physics.add.collider(GameScene.bombs, platforms);    
+        
+        this.arrows = new Arrows(this);
+
+        this.input.on('pointerdown', (pointer: any) => {
+            this.arrows.fireArrow(this.player.player.x, this.player.player.y, this.player);
+        });
     }
         
     update(): void {
