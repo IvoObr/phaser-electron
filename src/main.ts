@@ -2,12 +2,12 @@ import Phaser from 'phaser';
 import GameScene from './GameScene';
 import { ASCII_TEXT, ScreenSize } from './lib/consts';
 import { IGameConfig } from './lib/interfaces';
-import Electron from './Electron';
+// import Electron from './Electron';
 
 class Game {
     
     initElectron(): Game {
-        new Electron().init();
+        // new Electron().init();
         return this;
     }
 
@@ -39,6 +39,6 @@ class Game {
 }
 
 new Game()
-    .initElectron()
+    // .initElectron()
     .initPhaser();
 
