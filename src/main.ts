@@ -1,8 +1,8 @@
 import Phaser from 'phaser';
-import { GameScene } from './GameScene';
-import { ASCII_TEXT, ScreenSize } from './consts';
-import { IGameConfig } from './interfaces';
-import { Electron } from './Electron';
+import GameScene from './GameScene';
+import { ASCII_TEXT, ScreenSize } from './lib/consts';
+import { IGameConfig } from './lib/interfaces';
+import Electron from './Electron';
 
 class Game {
     

@@ -1,7 +1,6 @@
-import {
-    IPlayer, IArcadeStaticGroup, IGroup,
+import { IPlayer, IArcadeStaticGroup, IGroup,
     IGameConfig, IArcadeGroup, ICursors, IText
-} from './IPhaserGame';
+} from './IPhaser';
     
 import { IApp, IScreen, IBrowserWindow } from './IElectron';
 

@@ -1,4 +1,4 @@
-import { ICursors, IArcadeGroup, IArcadeStaticGroup } from '../interfaces';
+import { ICursors, IArcadeGroup, IArcadeStaticGroup } from '../lib/interfaces';
 import Phaser from 'phaser';
 
 export default abstract class Character {

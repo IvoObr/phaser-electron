@@ -1,9 +1,9 @@
 import Character from './Character';
-import { GameScene } from '../GameScene';
+import GameScene from '../GameScene';
 import Phaser from 'phaser';
-import { ScreenSize } from '../consts';
-import { IPlayer, ICursors,
-    IArcadeGroup, IArcadeStaticGroup } from '../interfaces';
+import { ScreenSize } from '../lib/consts';
+import { IPlayer, ICursors, IArcadeGroup,
+    IArcadeStaticGroup } from '../lib/interfaces';
 
 export default class Player extends Character {
     public player: IPlayer;
