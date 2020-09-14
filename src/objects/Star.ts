@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { IGroup } from '../interfaces';
+import { IGroup } from '../lib/interfaces';
 
 export default class Star {
 

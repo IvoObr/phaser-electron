@@ -2,8 +2,8 @@ const path = require('path');
 
 module.exports = {
     entry: {
-        phaser: './src/main.ts',
-        // electron: './src/electron.ts'
+        phaser: './src/Game.ts',
+        // electron: './src/Electron.ts'
     },
     output: {
         path: path.resolve(__dirname, 'dist'),

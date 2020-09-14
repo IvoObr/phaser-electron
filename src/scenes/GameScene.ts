@@ -1,9 +1,9 @@
 import Phaser from 'phaser';
-import { Screen } from './consts';
-import Player from './characters/Player';
+import { ScreenSize } from '../lib/consts';
+import { Player } from '../characters';
 import { IArcadeStaticGroup, IArcadeGroup,
-    ICursors, IText } from './interfaces';
-import { Bomb, Star } from './objects';
+    ICursors, IText } from '../lib/interfaces';
+import { Bomb, Star } from '../objects';
 
 export default class GameScene extends Phaser.Scene {
     public player: Player;
@@ -22,7 +22,7 @@ export default class GameScene extends Phaser.Scene {
         super('HeroGame');
     } 
 
-    preload() {
+    preload(): void {
         this.load.image('sky', 'assets/sky.jpg');        
         this.load.image('star', 'assets/star.png');
         this.load.image('ground', 'assets/platform.png');
@@ -31,8 +31,8 @@ export default class GameScene extends Phaser.Scene {
             { frameWidth: 32, frameHeight: 48 });
     }
 
-    create() {
-        this.add.image(Screen.width / 2 , Screen.height / 2, 'sky');
+    create(): void {
+        this.add.image(ScreenSize.width / 2 , ScreenSize.height / 2, 'sky');
         GameScene.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
 
         const platforms: IArcadeStaticGroup = this.physics.add.staticGroup();
@@ -73,11 +73,10 @@ export default class GameScene extends Phaser.Scene {
         this.player.setOverlap(GameScene.stars);
         
         this.physics.add.collider(GameScene.stars, platforms);
-        this.physics.add.collider(GameScene.bombs, platforms);
-        
+        this.physics.add.collider(GameScene.bombs, platforms);       
     }
         
-    update() {
+    update(): void {
         if (GameScene.gameOver) {
             return;
         }

@@ -3,3 +3,6 @@ node_modules/
 dist/phaser-bundle.js
 dist/consts.js
 dist/electron.js
+dist/lib/
+#package-json.lock
+
