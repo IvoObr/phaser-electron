@@ -4,4 +4,4 @@ import Player from './Player';
 export {
     Character,
     Player
-}
+};

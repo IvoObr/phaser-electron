@@ -11,7 +11,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config webpack.config.ts && npm run compile",
-    "compile": "tsc src/Electron.ts --outDir dist",
+    "compile": "tsc src/Electron.ts --outDir dist && npm run rename",
+    "rename": "node -e \"require('fs').rename('dist/Electron.js', 'dist/electron.js', () => {})\"",
     "start": "webpack-dev-server --open --watch",
     "play": "electron ."
   },
