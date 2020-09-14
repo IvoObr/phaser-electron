@@ -1,18 +1,22 @@
 import { IApp, IScreen, IBrowserWindow } from './interfaces';
+import { app, BrowserWindow, screen } from 'electron';
 import { ASCII_TEXT } from './consts';
 
 export class Electron {
-    
-    constructor(
-        private app: IApp,
-        private screen: IScreen,
-        private BrowserWindow: IBrowserWindow
-    ) { }
+    private app: IApp;
+    private screen: IScreen;
+
+    constructor() {
+        this.app = app;
+        this.screen = screen;
+    }
 
     public createWindow(): void {
 
-        const { width, height } = this.screen.getPrimaryDisplay().workAreaSize;
-        const window = new this.BrowserWindow({
+        const { width, height }: {width: number, height: number } = 
+            this.screen.getPrimaryDisplay().workAreaSize;
+        
+        const window: IBrowserWindow = new BrowserWindow({
             width, height,
             webPreferences:
                 { nodeIntegration: true }
@@ -43,7 +47,7 @@ export class Electron {
         this.app.on('activate', () => {
             // On macOS it's common to re-create a window in the app when the
             // dock icon is clicked and there are no other windows open.
-            if (this.BrowserWindow.getAllWindows().length === 0) {
+            if (BrowserWindow.getAllWindows().length === 0) {
                 this.createWindow();
             }
         });

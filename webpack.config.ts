@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = {
     entry: {
         phaser: './src/main.ts',
-        // electron: './src/electron.ts'
+        // electron: './src/Electron.ts'
     },
     output: {
         path: path.resolve(__dirname, 'dist'),

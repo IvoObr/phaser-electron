@@ -1,14 +1,13 @@
 import Phaser from 'phaser';
 import { GameScene } from './GameScene';
 import { ASCII_TEXT, ScreenSize } from './consts';
-import { IGameConfig, IApp, IScreen, IBrowserWindow } from './interfaces';
+import { IGameConfig } from './interfaces';
 import { Electron } from './Electron';
-import { app, BrowserWindow, screen } from 'electron';
 
 class Game {
     
-    initElectron(app: IApp, screen: IScreen, BrowserWindow: IBrowserWindow): Game {
-        new Electron(app, screen, BrowserWindow).init();
+    initElectron(): Game {
+        new Electron().init();
         return this;
     }
 
@@ -40,6 +39,6 @@ class Game {
 }
 
 new Game()
-    .initElectron(app, screen, new BrowserWindow())
+    .initElectron()
     .initPhaser();
 
