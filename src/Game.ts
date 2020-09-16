@@ -1,14 +1,14 @@
 import Phaser from 'phaser';
 import { GameScene } from './scenes';
+import { iGameConfig } from './lib/interfaces';
 import { ASCII_TEXT, ScreenSize } from './lib/consts';
-import { IGameConfig } from './lib/interfaces';
 
 class Game {
 
     init(): Phaser.Game {
         const game: GameScene = new GameScene();
 
-        const gameConfig: IGameConfig = {
+        const gameConfig: iGameConfig = {
             type: Phaser.AUTO,
             backgroundColor: '#3e729d',
             width: ScreenSize.width,

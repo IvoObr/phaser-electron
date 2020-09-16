@@ -1,22 +1,22 @@
 import Phaser from 'phaser';
-import { ScreenSize } from '../lib/consts';
-import { Player } from '../characters';
-import { IArcadeStaticGroup, IArcadeGroup,
-    ICursors, IText } from '../lib/interfaces';
-import { Bomb, Star } from '../objects';
 import Arrows from '../weapons/Arrow';
+import { Player } from '../characters';
+import { Bomb, Star } from '../objects';
+import { eObjs } from '../lib/enums';
+import { ScreenSize } from '../lib/consts';
+import { iArcadeStaticGroup, iArcadeGroup, iCursors, iText } from '../lib/interfaces';
 
 export default class GameScene extends Phaser.Scene {
     public player: Player;
-    public cursors: ICursors;
-    public arrows: any;
+    public cursors: iCursors;
+    public arrows: Arrows;
     
-    static scoreText: IText;
-    static shots: IText;
-    static gameOverText: IText;
+    static scoreText: iText;
+    static shots: iText;
+    static gameOverText: iText;
 
-    static bombs: IArcadeGroup;
-    static stars: IArcadeGroup;
+    static bombs: iArcadeGroup;
+    static stars: iArcadeGroup;
  
     static score: number = 0;
     static arrowLeft: number = 10;
@@ -29,7 +29,7 @@ export default class GameScene extends Phaser.Scene {
     preload(): void {
         this.load.image('sky', 'assets/sky.jpg');        
         this.load.image('star', 'assets/star.png');
-        this.load.image('ground', 'assets/platform.png');
+        this.load.image(eObjs.ground, 'assets/platform.png');
         this.load.image('bomb', 'assets/bomb.png');
         this.load.spritesheet('dude', 'assets/dude.png',
             { frameWidth: 32, frameHeight: 48 });
@@ -41,11 +41,11 @@ export default class GameScene extends Phaser.Scene {
         this.add.image(ScreenSize.width / 2 , ScreenSize.height / 2, 'sky');
         GameScene.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
 
-        const platforms: IArcadeStaticGroup = this.physics.add.staticGroup();
-        platforms.create(400, 568, 'ground').setScale(2).refreshBody();
-        platforms.create(600, 400, 'ground');
-        platforms.create(50, 250, 'ground');
-        platforms.create(750, 220, 'ground');
+        const platforms: iArcadeStaticGroup = this.physics.add.staticGroup();
+        platforms.create(400, 568, eObjs.ground).setScale(2).refreshBody();
+        platforms.create(600, 400, eObjs.ground);
+        platforms.create(50, 250, eObjs.ground);
+        platforms.create(750, 220, eObjs.ground);
 
         this.player = new Player(this);
         this.player.setSprite();
@@ -83,7 +83,7 @@ export default class GameScene extends Phaser.Scene {
         
         this.arrows = new Arrows(this, GameScene.arrowLeft);
 
-        this.input.on('pointerdown', (pointer: any) => {
+        this.input.on('pointerdown', () => {
             this.arrows.fireArrow(
                 this.player.player.x,
                 this.player.player.y,

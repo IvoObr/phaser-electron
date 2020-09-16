@@ -1,5 +1,5 @@
 import Arrows from './Arrow';
 
 export {
-  Arrows
-}
+    Arrows
+};

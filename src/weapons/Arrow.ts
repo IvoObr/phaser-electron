@@ -1,30 +1,31 @@
 import Phaser from 'phaser';
-import { x, y, directions } from '../lib/types';
 import { GameScene } from '../scenes';
+import { eDirections } from '../lib/enums';
+import { x, y, directions } from '../lib/types';
 
 class Arrow extends Phaser.Physics.Arcade.Sprite {
     private arrorSpeed: number = 800;
     
-    constructor(scene: any, x: x, y: y) {
+    constructor(scene: Phaser.Scene, x: x, y: y) {
         super(scene, x, y, 'arrow');
     }
     
-    fire(x: x, y: y, direction: directions) {
+    fire(x: x, y: y, direction: directions): void {
         this.body.reset(x, y);
    
         this.setActive(true);
         this.setVisible(true);
         
-        if (direction == 'left') {
+        if (direction == eDirections.left) {
             this.setVelocityX(this.arrorSpeed * -1);
         }
         
-        if (direction == 'right') {
+        if (direction == eDirections.right) {
             this.setVelocityX(this.arrorSpeed);
         }
     }
 
-    preUpdate(time: number, delta: number) {
+    preUpdate(time: number, delta: number): void {
         super.preUpdate(time, delta);
 
         if (this.y <= -32) {
@@ -35,12 +36,13 @@ class Arrow extends Phaser.Physics.Arcade.Sprite {
 }
 
 export default class Arrows extends Phaser.Physics.Arcade.Group {
-    constructor(scene: any, arrowsLeft: number) {
+    
+    constructor(scene: Phaser.Scene, arrowsLeft: number) {
         super(scene.physics.world, scene);
 
         // todo fill new arrows
         this.createMultiple({
-            frameQuantity: arrowsLeft, // number of arrows left
+            frameQuantity: arrowsLeft,
             key: 'arrow',
             active: false,
             visible: false,
@@ -48,13 +50,13 @@ export default class Arrows extends Phaser.Physics.Arcade.Group {
         });
     }
 
-    fireArrow(x: x, y: y, direction: directions) {
+    fireArrow(x: x, y: y, direction: directions): void {
         const arrow = this.getFirstDead(false);
 
         if (arrow) {
             arrow.fire(x, y, direction);
             GameScene.arrowLeft -= 1;
-            GameScene.scoreText.setText('Arrows: ' + GameScene.arrowLeft).alphaTopRight;
+            GameScene.scoreText.setText('Arrows: ' + GameScene.arrowLeft);
         }
     }
 }

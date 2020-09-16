@@ -1,13 +1,14 @@
+import Phaser from 'phaser';
 import Character from './Character';
 import { GameScene } from '../scenes';
-import Phaser from 'phaser';
+import { eDirections } from '../lib/enums';
 import { directions } from '../lib/types';
 import { ScreenSize } from '../lib/consts';
-import { IPlayer, ICursors, IArcadeGroup,
-    IArcadeStaticGroup } from '../lib/interfaces';
+import { iPlayer, iCursors, iArcadeGroup, iArcadeStaticGroup } from '../lib/interfaces';
 
 export default class Player extends Character {
-    public player: IPlayer;
+    private dude: string = 'dude';
+    public player: iPlayer;
     public direction: directions;
     private callbacks: PlayerPhysicsCallbacks;
 
@@ -17,56 +18,56 @@ export default class Player extends Character {
     }
 
     public setSprite(): void {
-        this.player = this.scene.physics.add.sprite(100, 450 , 'dude');
+        this.player = this.scene.physics.add.sprite(100, 450 , this.dude);
         this.player.setBounce(0.2);
         this.player.setCollideWorldBounds(true);
 
         this.scene.anims.create({
-            key: 'left',
-            frames: this.scene.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
+            key: eDirections.left,
+            frames: this.scene.anims.generateFrameNumbers(this.dude, { start: 0, end: 3 }),
             frameRate: 10,
             repeat: -1
         });
 
         this.scene.anims.create({
-            key: 'turn',
-            frames: [{ key: 'dude', frame: 4 }],
+            key: eDirections.turn,
+            frames: [{ key: this.dude, frame: 4 }],
             frameRate: 20
         });
 
         this.scene.anims.create({
-            key: 'right',
-            frames: this.scene.anims.generateFrameNumbers('dude', { start: 5, end: 8 }),
+            key: eDirections.right,
+            frames: this.scene.anims.generateFrameNumbers(this.dude, { start: 5, end: 8 }),
             frameRate: 10,
             repeat: -1
         });
     }
 
-    public setCollision(platforms: IArcadeStaticGroup, bombs: IArcadeGroup): void {
+    public setCollision(platforms: iArcadeStaticGroup, bombs: iArcadeGroup): void {
         this.scene.physics.add.collider(this.player, platforms);
         this.scene.physics.add.collider(this.player, bombs, this.callbacks.hitBomb, null, this);
     }
 
-    public setOverlap(stars: IArcadeGroup): void {
+    public setOverlap(stars: iArcadeGroup): void {
         this.scene.physics.add.overlap(this.player, stars, this.callbacks.collectStar, null, this);
     }
 
-    public setKeyInput(cursors: ICursors): void {
+    public setKeyInput(cursors: iCursors): void {
 
         if (cursors.left.isDown) {
             this.player.setVelocityX(-160);
-            this.player.anims.play('left', true);
-            this.direction = 'left';
+            this.player.anims.play(eDirections.left, true);
+            this.direction = eDirections.left;
 
         } else if (cursors.right.isDown) {
             this.player.setVelocityX(160);
-            this.player.anims.play('right', true);
-            this.direction = 'right';
+            this.player.anims.play(eDirections.right, true);
+            this.direction = eDirections.right;
 
         } else {
             this.player.setVelocityX(0);
-            this.player.anims.play('turn');
-            this.direction = 'center';
+            this.player.anims.play(eDirections.turn);
+            this.direction = eDirections.center;
         }
 
         if (cursors.up.isDown && this.player.body.touching.down) {
@@ -79,7 +80,7 @@ class PlayerPhysicsCallbacks {
     
     constructor(private scene: Phaser.Scene) {}
 
-    public collectStar(player: IPlayer, star: any): void {
+    public collectStar(player: iPlayer, star: any): void {
         star.disableBody(true, true);
 
         GameScene.score += 10;
@@ -102,11 +103,11 @@ class PlayerPhysicsCallbacks {
         }
     }
 
-    public hitBomb(player: IPlayer, bomb: any): void {
+    public hitBomb(player: iPlayer, bomb: any): void {
         this.scene.physics.pause();
 
         player.setTint(0xff0000);
-        player.anims.play('turn');
+        player.anims.play(eDirections.turn);
 
         GameScene.gameOverText = this.scene.add.text(
             ScreenSize.width / 4,

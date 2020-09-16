@@ -1,7 +1,17 @@
-// export enum directions {
-//     right: 'right',
-//     left 
-//     center;
-// } 
+export enum eDirections {
+    up = 'up',
+    left = 'left',
+    down = 'down',
+    turn = 'turn',
+    right = 'right',
+    center = 'center'
+}
 
-// todo direction?? enum
+export enum eObjs {
+    ground = 'ground',
+    
+}
+
+export enum eCharacters {
+    
+}

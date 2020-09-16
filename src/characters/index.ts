@@ -1,7 +1,7 @@
-import Character from './Character';
 import Player from './Player';
+import Character from './Character';
 
 export {
-    Character,
-    Player
+    Player,
+    Character
 };
