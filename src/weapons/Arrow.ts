@@ -1,23 +1,27 @@
 import Phaser from 'phaser';
-import { x, y } from '../lib/types';
+import { x, y, directions } from '../lib/types';
+import { GameScene } from '../scenes';
 
 class Arrow extends Phaser.Physics.Arcade.Sprite {
+    private arrorSpeed: number = 800;
+    
     constructor(scene: any, x: x, y: y) {
         super(scene, x, y, 'arrow');
     }
-
-    fire(x: x, y: y, player: any) {
+    
+    fire(x: x, y: y, direction: directions) {
         this.body.reset(x, y);
-
-        console.log('X: ',x);
-        console.log('Y: ', y);
-        console.log(player);
-        
-        
+   
         this.setActive(true);
         this.setVisible(true);
-
-        this.setVelocityX(-800);
+        
+        if (direction == 'left') {
+            this.setVelocityX(this.arrorSpeed * -1);
+        }
+        
+        if (direction == 'right') {
+            this.setVelocityX(this.arrorSpeed);
+        }
     }
 
     preUpdate(time: number, delta: number) {
@@ -31,11 +35,12 @@ class Arrow extends Phaser.Physics.Arcade.Sprite {
 }
 
 export default class Arrows extends Phaser.Physics.Arcade.Group {
-    constructor(scene: any) {
+    constructor(scene: any, arrowsLeft: number) {
         super(scene.physics.world, scene);
 
+        // todo fill new arrows
         this.createMultiple({
-            frameQuantity: 40, // number of arrows left
+            frameQuantity: arrowsLeft, // number of arrows left
             key: 'arrow',
             active: false,
             visible: false,
@@ -43,11 +48,13 @@ export default class Arrows extends Phaser.Physics.Arcade.Group {
         });
     }
 
-    fireArrow(x: x, y: y, player: any) {
+    fireArrow(x: x, y: y, direction: directions) {
         const arrow = this.getFirstDead(false);
 
         if (arrow) {
-            arrow.fire(x, y, player);
+            arrow.fire(x, y, direction);
+            GameScene.arrowLeft -= 1;
+            GameScene.scoreText.setText('Arrows: ' + GameScene.arrowLeft).alphaTopRight;
         }
     }
 }

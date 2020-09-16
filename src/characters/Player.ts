@@ -1,12 +1,14 @@
 import Character from './Character';
-import GameScene from '../scenes/GameScene';
+import { GameScene } from '../scenes';
 import Phaser from 'phaser';
+import { directions } from '../lib/types';
 import { ScreenSize } from '../lib/consts';
 import { IPlayer, ICursors, IArcadeGroup,
     IArcadeStaticGroup } from '../lib/interfaces';
 
 export default class Player extends Character {
     public player: IPlayer;
+    public direction: directions;
     private callbacks: PlayerPhysicsCallbacks;
 
     constructor(public scene: Phaser.Scene) {
@@ -54,14 +56,17 @@ export default class Player extends Character {
         if (cursors.left.isDown) {
             this.player.setVelocityX(-160);
             this.player.anims.play('left', true);
+            this.direction = 'left';
 
         } else if (cursors.right.isDown) {
             this.player.setVelocityX(160);
             this.player.anims.play('right', true);
+            this.direction = 'right';
 
         } else {
             this.player.setVelocityX(0);
             this.player.anims.play('turn');
+            this.direction = 'center';
         }
 
         if (cursors.up.isDown && this.player.body.touching.down) {
@@ -104,8 +109,8 @@ class PlayerPhysicsCallbacks {
         player.anims.play('turn');
 
         GameScene.gameOverText = this.scene.add.text(
-            ScreenSize.height / 2,
-            ScreenSize.width / 2,
+            ScreenSize.width / 4,
+            ScreenSize.height / 4, //todo center on screen
             'GAME OVER',
             { fontSize: '38px', fill: '#000' });
 

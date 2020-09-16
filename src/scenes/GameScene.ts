@@ -12,12 +12,14 @@ export default class GameScene extends Phaser.Scene {
     public arrows: any;
     
     static scoreText: IText;
+    static shots: IText;
     static gameOverText: IText;
 
     static bombs: IArcadeGroup;
     static stars: IArcadeGroup;
  
     static score: number = 0;
+    static arrowLeft: number = 10;
     static gameOver: boolean = false;
     
     constructor() {
@@ -79,10 +81,13 @@ export default class GameScene extends Phaser.Scene {
         this.physics.add.collider(GameScene.stars, platforms);
         this.physics.add.collider(GameScene.bombs, platforms);    
         
-        this.arrows = new Arrows(this);
+        this.arrows = new Arrows(this, GameScene.arrowLeft);
 
         this.input.on('pointerdown', (pointer: any) => {
-            this.arrows.fireArrow(this.player.player.x, this.player.player.y, this.player);
+            this.arrows.fireArrow(
+                this.player.player.x,
+                this.player.player.y,
+                this.player.direction);
         });
     }
         
