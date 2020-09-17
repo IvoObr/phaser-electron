@@ -14,7 +14,8 @@
     "compile": "tsc src/Electron.ts --outDir dist && npm run rename",
     "rename": "node -e \"require('fs').rename('dist/Electron.js', 'dist/electron.js', () => {})\"",
     "start": "webpack-dev-server --open --watch",
-    "play": "electron ."
+    "electron": "electron .",
+    "play": "npm run build && npm run electron"
   },
   "author": "",
   "license": "ISC",

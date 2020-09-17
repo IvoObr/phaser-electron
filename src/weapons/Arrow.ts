@@ -4,7 +4,7 @@ import { directions } from '../lib/enums';
 import { x, y } from '../lib/types';
 
 class Arrow extends Phaser.Physics.Arcade.Sprite {
-    private arrorSpeed: number = 800;
+    private arrorSpeed: number = 1000;
     
     constructor(scene: Phaser.Scene, x: x, y: y) {
         super(scene, x, y, 'arrow');
@@ -12,12 +12,12 @@ class Arrow extends Phaser.Physics.Arcade.Sprite {
     
     fire(x: x, y: y, direction: directions): void {
         this.body.reset(x, y);
-   
         this.setActive(true);
         this.setVisible(true);
         
         if (direction == directions.left) {
             this.setVelocityX(this.arrorSpeed * -1);
+            this.setFlipX(true);
         }
         
         if (direction == directions.right) {
@@ -53,7 +53,7 @@ export default class Arrows extends Phaser.Physics.Arcade.Group {
     fireArrow(x: x, y: y, direction: directions): void {
         const arrow = this.getFirstDead(false);
 
-        if (arrow) {
+        if (arrow && direction !== directions.center) {
             arrow.fire(x, y, direction);
             GameScene.arrowLeft -= 1;
             GameScene.scoreText.setText('Arrows: ' + GameScene.arrowLeft);

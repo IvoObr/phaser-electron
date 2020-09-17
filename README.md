@@ -1,6 +1,9 @@
-# phaser-electron Game
+## phaser-electron Game
 
-## Setup: 
+## TODO fix :)
+
+### Setup: 
 - npm install
-- npm run build
+
+### Start:
 - npm run play
