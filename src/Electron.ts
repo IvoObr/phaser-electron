@@ -1,6 +1,6 @@
+import { ASCII_TEXT } from './lib/consts';
 import { IBrowserWindow } from './lib/interfaces';
 import { app, BrowserWindow, screen } from 'electron';
-import { ASCII_TEXT } from './lib/consts';
 
 class Electron {
     
@@ -10,9 +10,9 @@ class Electron {
             screen.getPrimaryDisplay().workAreaSize;
 
         const window: IBrowserWindow = new BrowserWindow({
-            width, height,
-            webPreferences:
-                { nodeIntegration: true }
+            width, 
+            height,
+            webPreferences: { nodeIntegration: true }
         });
 
         window.setFullScreen(true);

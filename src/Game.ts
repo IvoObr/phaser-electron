@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import { GameScene } from './scenes';
-import { ASCII_TEXT, ScreenSize } from './lib/consts';
 import { IGameConfig } from './lib/interfaces';
+import { ASCII_TEXT, ScreenSize } from './lib/consts';
 
 class Game {
 

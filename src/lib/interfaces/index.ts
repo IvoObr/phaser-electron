@@ -1,10 +1,28 @@
-import { IPlayer, IArcadeStaticGroup, IGroup, IGameConfig,
-    IArcadeGroup, ICursors, IText } from './IPhaser';
-import { IApp, IScreen, IBrowserWindow } from './IElectron';
+import {
+    IApp,
+    IScreen,
+    IBrowserWindow
+} from './IElectron';
+
+import {
+    IText,
+    IGroup,
+    IPlayer,
+    ICursors,
+    IGameConfig,
+    IArcadeGroup,
+    IArcadeStaticGroup
+} from './IPhaser';
 
 export {
-    IPlayer, IGroup, IGameConfig,
-    IArcadeStaticGroup, IText,
-    IArcadeGroup, ICursors,
-    IApp, IScreen, IBrowserWindow 
+    IApp,
+    IScreen,
+    IBrowserWindow,
+    IText,
+    IGroup,
+    IPlayer,
+    ICursors,
+    IGameConfig,
+    IArcadeGroup,
+    IArcadeStaticGroup
 };
