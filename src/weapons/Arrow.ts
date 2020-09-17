@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import { GameScene } from '../scenes';
-import { eDirections } from '../lib/enums';
-import { x, y, directions } from '../lib/types';
+import { directions } from '../lib/enums';
+import { x, y } from '../lib/types';
 
 class Arrow extends Phaser.Physics.Arcade.Sprite {
     private arrorSpeed: number = 800;
@@ -16,11 +16,11 @@ class Arrow extends Phaser.Physics.Arcade.Sprite {
         this.setActive(true);
         this.setVisible(true);
         
-        if (direction == eDirections.left) {
+        if (direction == directions.left) {
             this.setVelocityX(this.arrorSpeed * -1);
         }
         
-        if (direction == eDirections.right) {
+        if (direction == directions.right) {
             this.setVelocityX(this.arrorSpeed);
         }
     }

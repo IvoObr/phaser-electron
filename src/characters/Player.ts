@@ -1,14 +1,13 @@
 import Phaser from 'phaser';
 import Character from './Character';
 import { GameScene } from '../scenes';
-import { eDirections } from '../lib/enums';
-import { directions } from '../lib/types';
+import { directions } from '../lib/enums';
 import { ScreenSize } from '../lib/consts';
-import { iPlayer, iCursors, iArcadeGroup, iArcadeStaticGroup } from '../lib/interfaces';
+import { IPlayer, ICursors, IArcadeGroup, IArcadeStaticGroup } from '../lib/interfaces';
 
 export default class Player extends Character {
     private dude: string = 'dude';
-    public player: iPlayer;
+    public hero: IPlayer;
     public direction: directions;
     private callbacks: PlayerPhysicsCallbacks;
 
@@ -18,60 +17,60 @@ export default class Player extends Character {
     }
 
     public setSprite(): void {
-        this.player = this.scene.physics.add.sprite(100, 450 , this.dude);
-        this.player.setBounce(0.2);
-        this.player.setCollideWorldBounds(true);
+        this.hero = this.scene.physics.add.sprite(100, 450 , this.dude);
+        this.hero.setBounce(0.2);
+        this.hero.setCollideWorldBounds(true);
 
         this.scene.anims.create({
-            key: eDirections.left,
+            key: directions.left,
             frames: this.scene.anims.generateFrameNumbers(this.dude, { start: 0, end: 3 }),
             frameRate: 10,
             repeat: -1
         });
 
         this.scene.anims.create({
-            key: eDirections.turn,
-            frames: [{ key: this.dude, frame: 4 }],
-            frameRate: 20
-        });
-
-        this.scene.anims.create({
-            key: eDirections.right,
+            key: directions.right,
             frames: this.scene.anims.generateFrameNumbers(this.dude, { start: 5, end: 8 }),
             frameRate: 10,
             repeat: -1
         });
+
+        this.scene.anims.create({
+            key: directions.turn,
+            frames: [{ key: this.dude, frame: 4 }],
+            frameRate: 20
+        });
     }
 
-    public setCollision(platforms: iArcadeStaticGroup, bombs: iArcadeGroup): void {
-        this.scene.physics.add.collider(this.player, platforms);
-        this.scene.physics.add.collider(this.player, bombs, this.callbacks.hitBomb, null, this);
+    public setCollision(platforms: IArcadeStaticGroup, bombs: IArcadeGroup): void {
+        this.scene.physics.add.collider(this.hero, platforms);
+        this.scene.physics.add.collider(this.hero, bombs, this.callbacks.hitBomb, null, this);
     }
 
-    public setOverlap(stars: iArcadeGroup): void {
-        this.scene.physics.add.overlap(this.player, stars, this.callbacks.collectStar, null, this);
+    public setOverlap(stars: IArcadeGroup): void {
+        this.scene.physics.add.overlap(this.hero, stars, this.callbacks.collectStar, null, this);
     }
 
-    public setKeyInput(cursors: iCursors): void {
+    public setKeyInput(cursors: ICursors): void {
 
         if (cursors.left.isDown) {
-            this.player.setVelocityX(-160);
-            this.player.anims.play(eDirections.left, true);
-            this.direction = eDirections.left;
+            this.hero.setVelocityX(-160);
+            this.hero.anims.play(directions.left, true);
+            this.direction = directions.left;
 
         } else if (cursors.right.isDown) {
-            this.player.setVelocityX(160);
-            this.player.anims.play(eDirections.right, true);
-            this.direction = eDirections.right;
+            this.hero.setVelocityX(160);
+            this.hero.anims.play(directions.right, true);
+            this.direction = directions.right;
 
         } else {
-            this.player.setVelocityX(0);
-            this.player.anims.play(eDirections.turn);
-            this.direction = eDirections.center;
+            this.hero.setVelocityX(0);
+            this.hero.anims.play(directions.turn);
+            this.direction = directions.center;
         }
 
-        if (cursors.up.isDown && this.player.body.touching.down) {
-            this.player.setVelocityY(-330);
+        if (cursors.up.isDown && this.hero.body.touching.down) {
+            this.hero.setVelocityY(-330);
         }
     }
 }
@@ -80,7 +79,7 @@ class PlayerPhysicsCallbacks {
     
     constructor(private scene: Phaser.Scene) {}
 
-    public collectStar(player: iPlayer, star: any): void {
+    public collectStar(player: IPlayer, star: any): void {
         star.disableBody(true, true);
 
         GameScene.score += 10;
@@ -103,11 +102,11 @@ class PlayerPhysicsCallbacks {
         }
     }
 
-    public hitBomb(player: iPlayer, bomb: any): void {
+    public hitBomb(player: IPlayer, bomb: any): void {
         this.scene.physics.pause();
 
         player.setTint(0xff0000);
-        player.anims.play(eDirections.turn);
+        player.anims.play(directions.turn);
 
         GameScene.gameOverText = this.scene.add.text(
             ScreenSize.width / 4,

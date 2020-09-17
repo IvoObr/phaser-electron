@@ -1,15 +1,15 @@
 import * as Phaser from 'phaser';
 
-export interface iText extends Phaser.GameObjects.Text {}
+export interface IText extends Phaser.GameObjects.Text {}
 
-export interface iArcadeGroup extends Phaser.Physics.Arcade.Group {}
+export interface IArcadeGroup extends Phaser.Physics.Arcade.Group {}
 
-export interface iGameConfig extends Phaser.Types.Core.GameConfig {}
+export interface IGameConfig extends Phaser.Types.Core.GameConfig {}
 
-export interface iCursors extends Phaser.Types.Input.Keyboard.CursorKeys {}
+export interface ICursors extends Phaser.Types.Input.Keyboard.CursorKeys {}
 
-export interface iArcadeStaticGroup extends Phaser.Physics.Arcade.StaticGroup {}
+export interface IArcadeStaticGroup extends Phaser.Physics.Arcade.StaticGroup {}
 
-export interface iGroup extends Phaser.Types.GameObjects.Group.GroupCreateConfig {}
+export interface IGroup extends Phaser.Types.GameObjects.Group.GroupCreateConfig {}
 
-export interface iPlayer extends Phaser.Types.Physics.Arcade.SpriteWithDynamicBody {}
+export interface IPlayer extends Phaser.Types.Physics.Arcade.SpriteWithDynamicBody {}
