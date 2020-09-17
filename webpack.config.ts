@@ -1,32 +1,24 @@
 const path = require('path');
 
 module.exports = {
-    entry: {
-        phaser: './src/Game.ts',
-        // electron: './src/Electron.ts'
-    },
+    entry: { phaser: './src/Game.ts' },
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: "[name]-bundle.js"
     },
     devtool: 'inline-source-map',
-    devServer: {
-        contentBase: './dist'
-    },
-    // target: 'electron-renderer',
+    devServer: { contentBase: './dist' },
     module: {
         rules: [
             {
-                test: /\.tsx?$/,
-                use: 'ts-loader',
-                exclude: /node_modules/
-            }
+                loader: 'ts-loader',
+                exclude: /node_modules/,
+                include: path.resolve(__dirname, 'src'),
+                options: { transpileOnly: true }
+            }, 
+            { use: 'cache-loader' }
         ]
     },
-    resolve: {
-        extensions: ['.tsx', '.ts', '.js']
-    },
-    externals: {
-        fs: 'require("fs")'
-    }
+    resolve: { extensions: ['.ts'] },
+    externals: { fs: 'require("fs")' }
 };
