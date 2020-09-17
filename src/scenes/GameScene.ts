@@ -39,8 +39,15 @@ export default class GameScene extends Phaser.Scene {
 
     create(): void {
         this.add.image(ScreenSize.width / 2 , ScreenSize.height / 2, 'sky');
-        GameScene.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
-
+        
+        GameScene.scoreText = this.add.text(16, 16,
+            'score: 0',
+            { fontSize: '18px', fill: '#000' });
+        
+        GameScene.shots = this.add.text(200, 16,
+            'arrows: ' + GameScene.arrowLeft,
+            { fontSize: '18px', fill: '#000' });
+        
         const platforms: IArcadeStaticGroup = this.physics.add.staticGroup();
         platforms.create(400, 568, sceneObjs.ground).setScale(2).refreshBody();
         platforms.create(600, 400, sceneObjs.ground);

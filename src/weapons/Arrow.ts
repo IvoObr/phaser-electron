@@ -56,7 +56,7 @@ export default class Arrows extends Phaser.Physics.Arcade.Group {
         if (arrow && direction !== directions.center) {
             arrow.fire(x, y, direction);
             GameScene.arrowLeft -= 1;
-            GameScene.scoreText.setText('Arrows: ' + GameScene.arrowLeft);
+            GameScene.shots.setText('Arrows: ' + GameScene.arrowLeft);
         }
     }
 }
