@@ -15,7 +15,7 @@
   "dependencies": {
     "@types/electron": "^1.6.10",
     "@typescript-eslint/parser": "^3.6.1",
-    "electron": "^9.1.0",
+    "electron": "^15.5.5",
     "eslint": "^7.4.0",
     "phaser": "^3.24.1",
     "ts-loader": "^8.0.1",
